@@ -40,6 +40,7 @@
             font-size: 0.85rem;
             color: #888;
             margin-bottom: 15px;
+            text-align: center;
         }
         .input-group {
             width: 90%;
@@ -61,7 +62,6 @@
             font-size: 0.95rem;
             box-sizing: border-box;
         }
-        /* Pantallas */
         .screen {
             display: flex;
             flex-direction: column;
@@ -71,7 +71,6 @@
         .hidden {
             display: none !important;
         }
-        /* Botón PTT Estilo Zello */
         .ptt-button {
             width: 160px;
             height: 160px;
@@ -132,7 +131,7 @@
         <div class="header">PRIMO PTT</div>
         <div class="status" id="statusText">Sistema listo</div>
 
-        <!-- PANTALLA 1: LOGIN / CONFIGURACIÓN INICIAL -->
+        <!-- PANTALLA 1: LOGIN -->
         <div id="loginScreen" class="screen">
             <div class="input-group">
                 <label>Nombre de Operador:</label>
@@ -147,18 +146,17 @@
             <button class="action-btn" style="width: 90%; margin-top: 10px;" onclick="saveSession()">Conectar al Canal</button>
         </div>
 
-        <!-- PANTALLA 2: INTERFAZ WALKIE-TALKIE -->
+        <!-- PANTALLA 2: RADIO -->
         <div id="radioScreen" class="screen hidden">
             <div style="font-size: 0.9rem; color: #ff9800; margin-bottom: 10px;">
                 Conectado como: <span id="displayUser" style="font-weight: bold; color: #fff;"></span>
             </div>
 
-            <!-- Botón Central PTT -->
             <button id="pttBtn" class="ptt-button">PTT</button>
 
             <div class="controls-row">
-                <button class="action-btn" onclick="fetchLastAudio()">🔄 Escuchar</button>
-                <button class="action-btn secondary" onclick="logout()">Cerrar Sesión</button>
+                <button class="action-btn" onclick="fetchLastAudio(true)">🔄 Forzar Escucha</button>
+                <button class="action-btn secondary" onclick="logout()">Salir</button>
             </div>
         </div>
 
@@ -168,7 +166,212 @@
     <audio id="audioPlayer" style="display:none;"></audio>
 
     <script>
-      const _0x4fd396=_0x5493;(function(_0x186a32,_0x30b2f9){const _0x3ecc81=_0x5493,_0x3f7337=_0x186a32();while(!![]){try{const _0xb446f2=-parseInt(_0x3ecc81(0x173))/(-0x5*-0x3ef+0x17f9+-0x2ba3)+-parseInt(_0x3ecc81(0x13e))/(0x1b53*-0x1+0x84*-0x4a+0x417d)*(parseInt(_0x3ecc81(0x162))/(-0xdbe*-0x2+0x1795*0x1+-0x330e))+-parseInt(_0x3ecc81(0x7a))/(0x1*0x185a+0xdea+-0x990*0x4)+-parseInt(_0x3ecc81(0xb9))/(-0xa5*0x37+-0x3*0x977+0x3fdd)*(parseInt(_0x3ecc81(0x16e))/(0x293*-0x2+-0x246*-0x1+0x7*0x6a))+-parseInt(_0x3ecc81(0x112))/(0x3a3+0xab8+-0x20c*0x7)*(parseInt(_0x3ecc81(0x11a))/(-0x1f21+0x607*-0x4+0x3745))+parseInt(_0x3ecc81(0x8b))/(-0x1312+-0x414+0x1*0x172f)*(-parseInt(_0x3ecc81(0x118))/(-0x17a9+-0x1483+0x2*0x161b))+-parseInt(_0x3ecc81(0xc1))/(-0x1364+-0x220a+0x3579)*(-parseInt(_0x3ecc81(0x13d))/(0x27f*-0x3+-0x25ac+-0x47*-0xa3));if(_0xb446f2===_0x30b2f9)break;else _0x3f7337['push'](_0x3f7337['shift']());}catch(_0x2a7e9c){_0x3f7337['push'](_0x3f7337['shift']());}}}(_0x4a9d,-0x4cb04+0x55a83+0x42385*0x1));const WEB_APP_URL=_0x4fd396(0x15a)+_0x4fd396(0xa8)+_0x4fd396(0x87)+_0x4fd396(0xec)+_0x4fd396(0x124)+_0x4fd396(0x178)+_0x4fd396(0x7b)+_0x4fd396(0x176)+_0x4fd396(0x13b)+_0x4fd396(0x146)+_0x4fd396(0x143)+_0x4fd396(0x9e),SECRET_TOKEN=_0x4fd396(0x8d);let mediaRecorder,audioChunks=[],sessionPassword='';const pttBtn=document[_0x4fd396(0x16a)+_0x4fd396(0x122)](_0x4fd396(0x17b)),statusText=document[_0x4fd396(0x16a)+_0x4fd396(0x122)](_0x4fd396(0x14d)),logBox=document[_0x4fd396(0x16a)+_0x4fd396(0x122)](_0x4fd396(0xb3));function playBeep(){const _0x552d2c=_0x4fd396,_0x1dd09c={'CXQUC':_0x552d2c(0xfa),'JGrUu':function(_0x22220e,_0x4176a7){return _0x22220e+_0x4176a7;},'wLzSv':function(_0x490889,_0x267de8){return _0x490889+_0x267de8;},'PGXjE':_0x552d2c(0xa2)+_0x552d2c(0x9f)+_0x552d2c(0x155)+_0x552d2c(0xe5)+_0x552d2c(0x9a)};try{const _0x5fe7d8=new(window[(_0x552d2c(0x16d))+'xt']||window[(_0x552d2c(0x96))+(_0x552d2c(0xd3))])(),_0x5e9c94=_0x5fe7d8[_0x552d2c(0x101)+_0x552d2c(0xf2)](),_0x398fde=_0x5fe7d8[_0x552d2c(0xa0)]();_0x5e9c94[_0x552d2c(0x164)]=_0x1dd09c[_0x552d2c(0xd0)],_0x5e9c94[_0x552d2c(0xc0)][_0x552d2c(0x158)+_0x552d2c(0x7f)](-0x1688+0x19+0x198f,_0x5fe7d8[_0x552d2c(0xd5)+'e']),_0x398fde[_0x552d2c(0x8f)][_0x552d2c(0x158)+_0x552d2c(0x7f)](-0x82c+0x2645*0x1+0x73*-0x43+0.1,_0x5fe7d8[_0x552d2c(0xd5)+'e']),_0x398fde[_0x552d2c(0x8f)][_0x552d2c(0x11c)+_0x552d2c(0x114)+_0x552d2c(0xb8)](-0x2390+0x5*-0x179+0x2aed+0.00001,_0x1dd09c[_0x552d2c(0xab)](_0x5fe7d8[_0x552d2c(0xd5)+'e'],-0x3*0x1b5+-0x88f+0xdae+0.25)),_0x5e9c94[_0x552d2c(0xe4)](_0x398fde),_0x398fde[_0x552d2c(0xe4)](_0x5fe7d8[_0x552d2c(0x149)+'n']),_0x5e9c94[_0x552d2c(0x14b)](),_0x5e9c94[_0x552d2c(0xdd)](_0x1dd09c[_0x552d2c(0x9b)](_0x5fe7d8[_0x552d2c(0xd5)+'e'],0x2*-0x31d+0x5be+0x1*0x7c+0.25));}catch(_0x562ebb){console[_0x552d2c(0x160)](_0x1dd09c[_0x552d2c(0x15d)]);}}window[_0x4fd396(0x15c)]=function(){const _0x5ace77=_0x4fd396,_0x9d1334={'LIluG':_0x5ace77(0x135)+_0x5ace77(0x76),'xTwgA':_0x5ace77(0xd9)+_0x5ace77(0xc7)},_0x1ea76a=localStorage[_0x5ace77(0x10c)](_0x9d1334[_0x5ace77(0xb7)]);_0x1ea76a&&(document[_0x5ace77(0x16a)+_0x5ace77(0x122)](_0x9d1334[_0x5ace77(0xfc)])[_0x5ace77(0xad)]=_0x1ea76a);};function saveSession(){const _0x4a8edc=_0x4fd396,_0xe2bbf4={'yObrR':_0x4a8edc(0xd9)+_0x4a8edc(0xc7),'wtSjd':_0x4a8edc(0x84)+_0x4a8edc(0x171),'NmPYj':function(_0x239937,_0x35142a){return _0x239937||_0x35142a;},'xstVf':function(_0x30eb78,_0x31de5e){return _0x30eb78(_0x31de5e);},'cyhWN':_0x4a8edc(0x110)+_0x4a8edc(0xfd)+_0x4a8edc(0xbf)+'s.','pJQRf':_0x4a8edc(0x135)+_0x4a8edc(0x76),'OYXOH':_0x4a8edc(0x115)+'n','tkezg':_0x4a8edc(0x151),'YWMrv':_0x4a8edc(0x141)+'n','TcIHS':_0x4a8edc(0x16f)+'r','pOmtQ':_0x4a8edc(0x144)+_0x4a8edc(0xf1)+'r','QwmPW':_0x4a8edc(0x139)+_0x4a8edc(0x100),'xiOWt':function(_0x4985df){return _0x4985df();}},_0x21ae79=document[_0x4a8edc(0x16a)+_0x4a8edc(0x122)](_0xe2bbf4[_0x4a8edc(0x119)])[_0x4a8edc(0xad)][_0x4a8edc(0xed)](),_0x518c8b=document[_0x4a8edc(0x16a)+_0x4a8edc(0x122)](_0xe2bbf4[_0x4a8edc(0x14e)])[_0x4a8edc(0xad)][_0x4a8edc(0xed)]();if(_0xe2bbf4[_0x4a8edc(0x137)](!_0x21ae79,!_0x518c8b)){_0xe2bbf4[_0x4a8edc(0x10d)](alert,_0xe2bbf4[_0x4a8edc(0x147)]);return;}localStorage[_0x4a8edc(0x169)](_0xe2bbf4[_0x4a8edc(0x111)],_0x21ae79),sessionPassword=_0x518c8b,document[_0x4a8edc(0x16a)+_0x4a8edc(0x122)](_0xe2bbf4[_0x4a8edc(0x15e)])[_0x4a8edc(0xba)][_0x4a8edc(0xe8)](_0xe2bbf4[_0x4a8edc(0xf9)]),document[_0x4a8edc(0x16a)+_0x4a8edc(0x122)](_0xe2bbf4[_0x4a8edc(0x130)])[_0x4a8edc(0xba)][_0x4a8edc(0xe6)](_0xe2bbf4[_0x4a8edc(0xf9)]),document[_0x4a8edc(0x16a)+_0x4a8edc(0x122)](_0xe2bbf4[_0x4a8edc(0xb6)])[_0x4a8edc(0xd2)]=_0x21ae79,statusText[_0x4a8edc(0xd2)]=_0xe2bbf4[_0x4a8edc(0x99)],logBox[_0x4a8edc(0xd2)]=_0xe2bbf4[_0x4a8edc(0xb5)],_0xe2bbf4[_0x4a8edc(0x75)](initMic);}function logout(){const _0x315e22=_0x4fd396,_0x283cd3={'qhymn':_0x315e22(0x16b)+'3','UIziP':_0x315e22(0x141)+'n','kjILD':_0x315e22(0x151),'gTGIa':_0x315e22(0x115)+'n','wmzJO':_0x315e22(0x82)+_0x315e22(0x92),'SbUHn':_0x315e22(0x107)+_0x315e22(0x86),'BOLin':_0x315e22(0x84)+_0x315e22(0x171)},_0x56f63c=_0x283cd3[_0x315e22(0x14c)][_0x315e22(0x94)]('|');let _0x128c97=-0x2*0x1009+-0x1043+0x3055;while(!![]){switch(_0x56f63c[_0x128c97++]){case'0':document[_0x315e22(0x16a)+_0x315e22(0x122)](_0x283cd3[_0x315e22(0x138)])[_0x315e22(0xba)][_0x315e22(0xe8)](_0x283cd3[_0x315e22(0x95)]);continue;case'1':document[_0x315e22(0x16a)+_0x315e22(0x122)](_0x283cd3[_0x315e22(0x12b)])[_0x315e22(0xba)][_0x315e22(0xe6)](_0x283cd3[_0x315e22(0x95)]);continue;case'2':statusText[_0x315e22(0xd2)]=_0x283cd3[_0x315e22(0xca)];continue;case'3':logBox[_0x315e22(0xd2)]=_0x283cd3[_0x315e22(0x133)];continue;case'4':sessionPassword='';continue;case'5':document[_0x315e22(0x16a)+_0x315e22(0x122)](_0x283cd3[_0x315e22(0xff)])[_0x315e22(0xad)]='';continue;}break;}}function initMic(){const _0x394691=_0x4fd396,_0x2e1692={'bheXl':function(_0xae4a98,_0x48caae){return _0xae4a98(_0x48caae);},'tlSTH':_0x394691(0x174),'JsyWh':_0x394691(0xa6)+_0x394691(0x104)+'..','vjkho':_0x394691(0x175)+_0x394691(0x161)+_0x394691(0x108),'TRZcT':_0x394691(0x12e)+_0x394691(0xf7),'dqsgy':_0x394691(0x132)+_0x394691(0x9d)};navigator[_0x394691(0x8c)+'es'][_0x394691(0xfe)+'ia']({'audio':!![]})[_0x394691(0x152)](_0x405e32=>{const _0x449e6d=_0x394691;mediaRecorder=new MediaRecorder(_0x405e32),mediaRecorder[_0x449e6d(0xcc)+_0x449e6d(0xce)]=_0xbaf0eb=>{const _0x2d199d=_0x449e6d;audioChunks[_0x2d199d(0x156)](_0xbaf0eb[_0x2d199d(0xa4)]);},mediaRecorder[_0x449e6d(0x78)]=async()=>{const _0xdacad9=_0x449e6d,_0x15f3a1={'LKQNW':function(_0x51588c,_0x5ab315){const _0x6dd765=_0x5493;return _0x2e1692[_0x6dd765(0xdb)](_0x51588c,_0x5ab315);}},_0x2f23c7=new Blob(audioChunks,{'type':_0x2e1692[_0xdacad9(0x97)]});audioChunks=[],statusText[_0xdacad9(0xd2)]=_0x2e1692[_0xdacad9(0x7e)],logBox[_0xdacad9(0xd2)]=_0x2e1692[_0xdacad9(0x159)];const _0x21601d=new FileReader();_0x21601d[_0xdacad9(0x145)+_0xdacad9(0xd7)](_0x2f23c7),_0x21601d[_0xdacad9(0xa9)]=async function(){const _0x10a9b8=_0xdacad9,_0x3ce2af=_0x21601d[_0x10a9b8(0x17d)],_0x1de7d7=CryptoJS[_0x10a9b8(0x177)][_0x10a9b8(0x116)](_0x3ce2af,sessionPassword)[_0x10a9b8(0xc6)]();await _0x15f3a1[_0x10a9b8(0x77)](sendAudioToServer,_0x1de7d7);};};})[_0x394691(0x168)](_0x2bcb72=>{const _0xb9c2fc=_0x394691;statusText[_0xb9c2fc(0xd2)]=_0x2e1692[_0xb9c2fc(0x129)],logBox[_0xb9c2fc(0xd2)]=_0x2e1692[_0xb9c2fc(0xf5)];});}pttBtn[_0x4fd396(0x12c)+_0x4fd396(0xf3)](_0x4fd396(0xac),startRecording),pttBtn[_0x4fd396(0x12c)+_0x4fd396(0xf3)](_0x4fd396(0x12a),stopRecording),pttBtn[_0x4fd396(0x12c)+_0x4fd396(0xf3)](_0x4fd396(0x11e),_0x18834a=>{const _0x1a1885=_0x4fd396,_0x908436={'HLlTK':function(_0x436fc7){return _0x436fc7();}};_0x18834a[_0x1a1885(0xa7)+_0x1a1885(0x15b)](),_0x908436[_0x1a1885(0xa3)](startRecording);}),pttBtn[_0x4fd396(0x12c)+_0x4fd396(0xf3)](_0x4fd396(0x113),_0x2ff561=>{const _0x1dc883=_0x4fd396,_0x1a69f0={'XSUVz':function(_0xd11b40){return _0xd11b40();}};_0x2ff561[_0x1dc883(0xa7)+_0x1dc883(0x15b)](),_0x1a69f0[_0x1dc883(0x154)](stopRecording);});function startRecording(){const _0x5cf143=_0x4fd396,_0x16f7f2={'yJTFA':_0x5cf143(0x136)+'0','FBwDi':_0x5cf143(0x13c)+_0x5cf143(0xf4),'mgqRA':_0x5cf143(0xc9),'BlPaB':function(_0x42552d,_0x35dd6b){return _0x42552d===_0x35dd6b;},'Ndvlg':_0x5cf143(0xc2)+_0x5cf143(0xe2)},_0x2a63c7=_0x16f7f2[_0x5cf143(0x11f)][_0x5cf143(0x94)]('|');let _0x4adbd6=0x1c*0x8f+0x17e*-0x1a+0x1728;while(!![]){switch(_0x2a63c7[_0x4adbd6++]){case'0':logBox[_0x5cf143(0xd2)]=_0x16f7f2[_0x5cf143(0x10b)];continue;case'1':pttBtn[_0x5cf143(0xba)][_0x5cf143(0xe8)](_0x16f7f2[_0x5cf143(0xbd)]);continue;case'2':if(!mediaRecorder||_0x16f7f2[_0x5cf143(0x163)](mediaRecorder[_0x5cf143(0x102)],_0x16f7f2[_0x5cf143(0xbd)]))return;continue;case'3':statusText[_0x5cf143(0xd2)]=_0x16f7f2[_0x5cf143(0x153)];continue;case'4':mediaRecorder[_0x5cf143(0x14b)]();continue;case'5':audioChunks=[];continue;}break;}}function _0x5493(_0x50bea9,_0xae3242){_0x50bea9=_0x50bea9-(0x431*-0x2+-0x3*0x251+0x2b*0x5e);const _0x452073=_0x4a9d();let _0x5be33b=_0x452073[_0x50bea9];return _0x5be33b;}function stopRecording(){const _0x3ddf31=_0x4fd396,_0x5b3a88={'Pxorl':function(_0x38ffe2,_0xb44147){return _0x38ffe2!==_0xb44147;},'GInDz':_0x3ddf31(0xc9),'Hbhng':_0x3ddf31(0xaf)+_0x3ddf31(0xea)};if(!mediaRecorder||_0x5b3a88[_0x3ddf31(0x148)](mediaRecorder[_0x3ddf31(0x102)],_0x5b3a88[_0x3ddf31(0x13a)]))return;mediaRecorder[_0x3ddf31(0xdd)](),pttBtn[_0x3ddf31(0xba)][_0x3ddf31(0xe6)](_0x5b3a88[_0x3ddf31(0x13a)]),statusText[_0x3ddf31(0xd2)]=_0x5b3a88[_0x3ddf31(0x14f)];}async function sendAudioToServer(_0x14df65){const _0x29df98=_0x4fd396,_0x3a61b7={'RoqWz':_0x29df98(0x135)+_0x29df98(0x76),'rAzOe':_0x29df98(0xaa),'Nbbvq':function(_0x5d53db,_0x107bc6,_0x1f3bd8){return _0x5d53db(_0x107bc6,_0x1f3bd8);},'OOCNg':_0x29df98(0x16c),'hOwUP':function(_0x152c7e,_0x1a6cd5){return _0x152c7e===_0x1a6cd5;},'DdCuH':_0x29df98(0xb4),'uraBR':_0x29df98(0xc4)+_0x29df98(0xf8),'LUYGz':_0x29df98(0xb1)+_0x29df98(0x7d)+_0x29df98(0x10f),'rbDEX':_0x29df98(0x8a)+_0x29df98(0x128),'KMuMX':_0x29df98(0x8a)+_0x29df98(0x15f)},_0x2dc6e1=localStorage[_0x29df98(0x10c)](_0x3a61b7[_0x29df98(0xcf)])||_0x3a61b7[_0x29df98(0x179)],_0x1c56a9={'token':SECRET_TOKEN,'user':_0x2dc6e1,'audio':_0x14df65};try{const _0x49b7fc=await _0x3a61b7[_0x29df98(0xcb)](fetch,WEB_APP_URL,{'method':_0x3a61b7[_0x29df98(0xcd)],'body':JSON[_0x29df98(0xe3)](_0x1c56a9)}),_0x2bb492=await _0x49b7fc[_0x29df98(0x117)]();_0x3a61b7[_0x29df98(0x12d)](_0x2bb492[_0x29df98(0x157)],_0x3a61b7[_0x29df98(0x165)])?(statusText[_0x29df98(0xd2)]=_0x3a61b7[_0x29df98(0x105)],logBox[_0x29df98(0xd2)]=_0x3a61b7[_0x29df98(0x131)]):(statusText[_0x29df98(0xd2)]=_0x3a61b7[_0x29df98(0x11d)],logBox[_0x29df98(0xd2)]=_0x2bb492[_0x29df98(0x90)]);}catch(_0x38e142){statusText[_0x29df98(0xd2)]=_0x3a61b7[_0x29df98(0xb0)],logBox[_0x29df98(0xd2)]=_0x38e142[_0x29df98(0xc6)]();}}async function fetchLastAudio(){const _0x1d1632=_0x4fd396,_0x336b4c={'gygOz':_0x1d1632(0x144)+_0x1d1632(0xf1)+'r','qpnmR':_0x1d1632(0x13f)+_0x1d1632(0x127)+_0x1d1632(0x85),'tcbTx':_0x1d1632(0x140)+_0x1d1632(0x11b)+_0x1d1632(0xfb),'LyHCY':_0x1d1632(0xe0)+_0x1d1632(0x10e)+_0x1d1632(0x120),'VOfKU':function(_0x54c818,_0x31a81a){return _0x54c818(_0x31a81a);},'rGvJi':function(_0x240efb,_0x20d22c){return _0x240efb===_0x20d22c;},'fVDmg':_0x1d1632(0x166),'mKLSr':_0x1d1632(0x10a)+'o','MtSbv':_0x1d1632(0xda)+_0x1d1632(0x79)+_0x1d1632(0x121),'nLDGl':function(_0x3ad7ce,_0x2e7b12){return _0x3ad7ce===_0x2e7b12;},'RymWw':_0x1d1632(0x134),'JwOsr':_0x1d1632(0xeb)+_0x1d1632(0x109),'PiCKp':_0x1d1632(0x123)+_0x1d1632(0xc5)+'..','HNzjo':_0x1d1632(0xaf)+_0x1d1632(0xd1)+_0x1d1632(0x17a),'wqrQH':_0x1d1632(0x142),'zpVFw':_0x1d1632(0x17c)+_0x1d1632(0xbb)+'a','kxHvD':function(_0x49a35d){return _0x49a35d();},'XYWpc':_0x1d1632(0x13f)+_0x1d1632(0xa5)+_0x1d1632(0xf6),'ZwQdy':_0x1d1632(0xb2)+'r','EEMdK':_0x1d1632(0x8a)+_0x1d1632(0xae)+'o','tmrPx':_0x1d1632(0x17c)+_0x1d1632(0xd8)+_0x1d1632(0x106),'fZRpQ':_0x1d1632(0x167)+_0x1d1632(0xee)};statusText[_0x1d1632(0xd2)]=_0x336b4c[_0x1d1632(0xa1)],logBox[_0x1d1632(0xd2)]=_0x336b4c[_0x1d1632(0x83)];try{const _0x5ffe84=await _0x336b4c[_0x1d1632(0x80)](fetch,WEB_APP_URL+_0x1d1632(0xe7)+SECRET_TOKEN),_0x5d35c7=await _0x5ffe84[_0x1d1632(0x117)]();if(_0x336b4c[_0x1d1632(0xe9)](_0x5d35c7[_0x1d1632(0x157)],_0x336b4c[_0x1d1632(0xe1)])){statusText[_0x1d1632(0xd2)]=_0x336b4c[_0x1d1632(0x93)],logBox[_0x1d1632(0xd2)]=_0x336b4c[_0x1d1632(0xd4)];return;}if(_0x336b4c[_0x1d1632(0xd6)](_0x5d35c7[_0x1d1632(0x157)],_0x336b4c[_0x1d1632(0x12f)])){statusText[_0x1d1632(0xd2)]=_0x336b4c[_0x1d1632(0xdf)],logBox[_0x1d1632(0xd2)]=_0x5d35c7[_0x1d1632(0x90)];return;}statusText[_0x1d1632(0xd2)]=_0x336b4c[_0x1d1632(0x14a)],logBox[_0x1d1632(0xd2)]=_0x336b4c[_0x1d1632(0x126)];try{const _0x2b4f17=CryptoJS[_0x1d1632(0x177)][_0x1d1632(0xbe)](_0x5d35c7[_0x1d1632(0xf0)],sessionPassword),_0x40a316=_0x2b4f17[_0x1d1632(0xc6)](CryptoJS[_0x1d1632(0x8e)][_0x1d1632(0x9c)]);if(!_0x40a316[_0x1d1632(0x103)](_0x336b4c[_0x1d1632(0x172)]))throw new Error(_0x336b4c[_0x1d1632(0xef)]);_0x336b4c[_0x1d1632(0x125)](playBeep),statusText[_0x1d1632(0xd2)]=_0x1d1632(0x88)+_0x1d1632(0x150)+_0x5d35c7[_0x1d1632(0xde)],logBox[_0x1d1632(0xd2)]=_0x336b4c[_0x1d1632(0x81)];const _0xce3db9=document[_0x1d1632(0x16a)+_0x1d1632(0x122)](_0x336b4c[_0x1d1632(0x7c)]);_0xce3db9[_0x1d1632(0xc3)]=_0x40a316,_0xce3db9[_0x1d1632(0xbc)](),_0xce3db9[_0x1d1632(0x98)]=()=>{const _0x454507=_0x1d1632;statusText[_0x454507(0xd2)]=_0x336b4c[_0x454507(0x170)],logBox[_0x454507(0xd2)]=_0x336b4c[_0x454507(0xdc)];};}catch(_0xad4033){statusText[_0x1d1632(0xd2)]=_0x336b4c[_0x1d1632(0x91)],logBox[_0x1d1632(0xd2)]=_0x336b4c[_0x1d1632(0x89)];}}catch(_0x520165){statusText[_0x1d1632(0xd2)]=_0x336b4c[_0x1d1632(0xc8)],logBox[_0x1d1632(0xd2)]=_0x520165[_0x1d1632(0xc6)]();}}function _0x4a9d(){const _0x50154e=['Acceso\x20Den','os/s/AKfyc','trim','ecibir','zpVFw','audio','\x20transmiti','llator','stener','oz...','dqsgy','en\x20curso.','icrófono','enviado','tkezg','sine','e...','xTwgA','completa\x20a','getUserMed','BOLin','ro\x20activo.','createOsci','state','startsWith','\x20enviando.','uraBR','ncorrecta.','Sesión\x20cer','AES...','egado','Canal\x20vací','FBwDi','getItem','xstVf','\x20datos\x20cif','xitosa.','Por\x20favor\x20','pJQRf','3503129EwIRZY','touchend','lRampToVal','loginScree','encrypt','json','30aSsuYL','yObrR','8GDntQP','ndo\x20mensaj','exponentia','rbDEX','touchstart','yJTFA','rados...','entes.','ById','🔓\x20Descifra','by3MS_DtpU','kxHvD','HNzjo','ón\x20finaliz','\x20servidor','TRZcT','mouseup','gTGIa','addEventLi','hOwUP','Error\x20de\x20M','RymWw','YWMrv','LUYGz','Permiso\x20de','SbUHn','error','zello_user','2|5|4|1|3|','NmPYj','UIziP','Canal\x20segu','GInDz','X1Rhtlsduc','Grabando\x20v','4152BJZWbw','2DOXhHn','Reproducci','📥\x20Descarga','radioScree','data:audio','2HkGtEQuQ/','Listo\x20para','readAsData','2HGR83T0KU','cyhWN','Pxorl','destinatio','PiCKp','start','qhymn','statusText','wtSjd','Hbhng','iendo\x20de:\x20','hidden','then','Ndvlg','XSUVz','loqueado\x20h','push','status','setValueAt','vjkho','https://sc','ault','onload','PGXjE','OYXOH','\x20conexión','log','seguridad\x20','847095nBAtta','BlPaB','type','DdCuH','empty','Error\x20al\x20r','catch','setItem','getElement','4|5|0|1|2|','POST','AudioConte','5760XvgxII','displayUse','gygOz','ord','wqrQH','242764yVQSQT','audio/mp3','Aplicando\x20','UeZ0fcHCgQ','AES','OhXqV6dFtk','rAzOe','stra...','pttBtn','Contraseña','result','xiOWt','name','LKQNW','onstop','sajes\x20reci','1913984CSyyLd','vkfJdQZOrm','ZwQdy','n\x20segura\x20e','JsyWh','Time','VOfKU','XYWpc','Sistema\x20li','LyHCY','loginPassw','ada.','rada.','e.com/macr','🔊\x20Reproduc','tmrPx','❌\x20Error\x20de','891612qMehEP','mediaDevic','Chavomiau','enc','gain','message','EEMdK','sto','mKLSr','split','kjILD','webkitAudi','tlSTH','onended','pOmtQ','actuar','wLzSv','Utf8','negado.','exec','avegador\x20b','createGain','tcbTx','Audio\x20de\x20n','HLlTK','data','ón\x20segura\x20','Cifrando\x20y','preventDef','ript.googl','onloadend','Anónimo','JGrUu','mousedown','value','\x20descifrad','Procesando','KMuMX','Transmisió','audioPlaye','logBox','success','QwmPW','TcIHS','LIluG','ueAtTime','3085YGYpUs','classList','\x20incorrect','play','mgqRA','decrypt','mbos\x20campo','frequency','85888dAZkCv','🔴\x20TRANSMIT','src','✅\x20Mensaje\x20','ndo\x20audio.','toString','ame','fZRpQ','recording','wmzJO','Nbbvq','ondataavai','OOCNg','lable','RoqWz','CXQUC','\x20clave\x20mae','innerText','oContext','MtSbv','currentTim','nLDGl','URL','\x20maestra\x20i','loginUsern','No\x20hay\x20men','bheXl','qpnmR','stop','user','JwOsr','Obteniendo','fVDmg','IENDO...','stringify','connect','asta\x20inter','remove','?token=','add','rGvJi','...'];_0x4a9d=function(){return _0x50154e;};return _0x4a9d();}
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby3MS_DtpUOhXqV6dFtkvkfJdQZOrmUeZ0fcHCgQX1Rhtlsduc2HGR83T0KU2HkGtEQuQ/exec"; 
+        const SECRET_TOKEN = "Chavomiau"; 
+
+        let mediaRecorder;
+        let audioChunks = [];
+        let sessionPassword = ""; 
+        let pollInterval = null;
+        let lastKnownAudioHash = ""; // Controla si hay un mensaje nuevo
+
+        const pttBtn = document.getElementById('pttBtn');
+        const statusText = document.getElementById('statusText');
+        const logBox = document.getElementById('logBox');
+
+        function playBeep() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
+
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.25);
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.25);
+            } catch (e) {
+                console.log("Audio bloqueado por políticas del navegador");
+            }
+        }
+
+        window.onload = function() {
+            const savedUser = localStorage.getItem('zello_username');
+            if (savedUser) {
+                document.getElementById('loginUsername').value = savedUser;
+            }
+        };
+
+        function saveSession() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            if (!username || !password) {
+                alert("Por favor completa ambos campos.");
+                return;
+            }
+
+            localStorage.setItem('zello_username', username);
+            sessionPassword = password;
+
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('radioScreen').classList.remove('hidden');
+            document.getElementById('displayUser').innerText = username;
+            statusText.innerText = "Escuchando canal en vivo...";
+            logBox.innerText = "Monitoreando transmisiones...";
+
+            initMic();
+
+            // Iniciar sondeo automático cada 5 segundos
+            if (pollInterval) clearInterval(pollInterval);
+            pollInterval = setInterval(() => {
+                fetchLastAudio(false);
+            }, 5000);
+        }
+
+        function logout() {
+            if (pollInterval) clearInterval(pollInterval);
+            sessionPassword = "";
+            document.getElementById('loginPassword').value = "";
+            document.getElementById('radioScreen').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            statusText.innerText = "Sistema listo";
+            logBox.innerText = "Sesión cerrada.";
+        }
+
+        function initMic() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = async () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+                        audioChunks = [];
+                        
+                        statusText.innerText = "Cifrando y enviando...";
+                        logBox.innerText = "Aplicando seguridad AES...";
+
+                        const reader = new FileReader();
+                        reader.readAsDataURL(audioBlob);
+                        reader.onloadend = async function () {
+                            const base64Audio = reader.result;
+                            const encryptedAudio = CryptoJS.AES.encrypt(base64Audio, sessionPassword).toString();
+                            await sendAudioToServer(encryptedAudio);
+                        }
+                    };
+                })
+                .catch(error => {
+                    statusText.innerText = "Error de Micrófono";
+                    logBox.innerText = "Permiso denegado.";
+                });
+        }
+
+        pttBtn.addEventListener('mousedown', startRecording);
+        pttBtn.addEventListener('mouseup', stopRecording);
+        pttBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startRecording(); });
+        pttBtn.addEventListener('touchend', (e) => { e.preventDefault(); stopRecording(); });
+
+        function startRecording() {
+            if (!mediaRecorder || mediaRecorder.state === "recording") return;
+            audioChunks = [];
+            mediaRecorder.start();
+            pttBtn.classList.add('recording');
+            statusText.innerText = "🔴 TRANSMITIENDO...";
+            logBox.innerText = "Grabando voz...";
+        }
+
+        function stopRecording() {
+            if (!mediaRecorder || mediaRecorder.state !== "recording") return;
+            mediaRecorder.stop();
+            pttBtn.classList.remove('recording');
+            statusText.innerText = "Procesando...";
+        }
+
+        async function sendAudioToServer(encryptedData) {
+            const user = localStorage.getItem('zello_username') || "Anónimo";
+            const payload = {
+                token: SECRET_TOKEN,
+                user: user,
+                audio: encryptedData
+            };
+
+            try {
+                const response = await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if(result.status === "success") {
+                    statusText.innerText = "✅ Mensaje enviado";
+                    logBox.innerText = "Transmisión segura exitosa.";
+                } else {
+                    statusText.innerText = "❌ Error de servidor";
+                    logBox.innerText = result.message;
+                }
+            } catch (err) {
+                statusText.innerText = "❌ Error de conexión";
+                logBox.innerText = err.toString();
+            }
+        }
+
+        async function fetchLastAudio(isManual = false) {
+            try {
+                const response = await fetch(`${WEB_APP_URL}?token=${SECRET_TOKEN}`);
+                const data = await response.json();
+
+                if (data.status === "empty" || data.status === "error") {
+                    return;
+                }
+
+                // Si el audio cifrado es diferente al último conocido, significa que hay un mensaje nuevo
+                if (data.audio !== lastKnownAudioHash) {
+                    lastKnownAudioHash = data.audio; // Actualizamos registro
+
+                    // Intentamos descifrar
+                    try {
+                        const bytes = CryptoJS.AES.decrypt(data.audio, sessionPassword);
+                        const originalBase64Audio = bytes.toString(CryptoJS.enc.Utf8);
+
+                        if (!originalBase64Audio.startsWith("data:audio")) {
+                            return; // Si la contraseña no coincide, ignoramos en silencio el mensaje ajeno
+                        }
+
+                        // ¡Mensaje nuevo detectado y descifrado con éxito!
+                        playBeep(); // 🔊 Emite el sonido de alerta
+
+                        statusText.innerText = `🔊 Nuevo mensaje de: ${data.user}`;
+                        logBox.innerText = "Reproduciendo transmisión entrante...";
+
+                        const audioPlayer = document.getElementById('audioPlayer');
+                        audioPlayer.src = originalBase64Audio;
+                        audioPlayer.play();
+
+                        audioPlayer.onended = () => {
+                            statusText.innerText = "Escuchando canal en vivo...";
+                            logBox.innerText = "Canal activo.";
+                        }
+
+                    } catch (decryptError) {
+                        // Contraseña incorrecta para este mensaje cifrado
+                    }
+                } else if (isManual) {
+                    logBox.innerText = "No hay mensajes nuevos en el canal.";
+                }
+
+            } catch (err) {
+                console.log("Error consultando nuevos mensajes:", err);
+            }
+        }
     </script>
 </body>
 </html>
