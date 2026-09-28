@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRIMO PTT</title>
-    <!-- Librería CryptoJS para Cifrado AES -->
+    <title>PRIMO PTT - Optimizado</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         body {
@@ -135,11 +134,11 @@
         <div id="loginScreen" class="screen">
             <div class="input-group">
                 <label>Nombre de Operador:</label>
-                <input type="text" id="loginUsername" class="user-input" placeholder="Ej. Operador_1">
+                <input type="text" id="loginUsername" class="user-input" placeholder="Ej. Móvil_1">
             </div>
 
             <div class="input-group">
-                <label>Canal:</label>
+                <label>Canal (Contraseña):</label>
                 <input type="password" id="loginPassword" class="user-input" placeholder="Canal">
             </div>
 
@@ -166,14 +165,14 @@
     <audio id="audioPlayer" style="display:none;"></audio>
 
     <script>
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby3MS_DtpUOhXqV6dFtkvkfJdQZOrmUeZ0fcHCgQX1Rhtlsduc2HGR83T0KU2HkGtEQuQ/exec"; 
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwXVLG-2mQU_mPYuGWbCkkQ6tueQnZcQYjdo9NXTkP9dzgzsIQwPkIIA3zQyMHAkj86QQ/exec"; 
         const SECRET_TOKEN = "Chavomiau"; 
 
         let mediaRecorder;
         let audioChunks = [];
         let sessionPassword = ""; 
         let pollInterval = null;
-        let lastKnownAudioHash = ""; // Controla si hay un mensaje nuevo
+        let lastKnownAudioHash = ""; 
 
         const pttBtn = document.getElementById('pttBtn');
         const statusText = document.getElementById('statusText');
@@ -197,7 +196,7 @@
                 oscillator.start();
                 oscillator.stop(audioCtx.currentTime + 0.25);
             } catch (e) {
-                console.log("Audio bloqueado por políticas del navegador");
+                console.log("Audio bloqueado por navegador");
             }
         }
 
@@ -213,7 +212,7 @@
             const password = document.getElementById('loginPassword').value.trim();
 
             if (!username || !password) {
-                alert("Por favor completa ambos campos.");
+                alert("Completa ambos campos.");
                 return;
             }
 
@@ -224,15 +223,15 @@
             document.getElementById('radioScreen').classList.remove('hidden');
             document.getElementById('displayUser').innerText = username;
             statusText.innerText = "Escuchando canal en vivo...";
-            logBox.innerText = "Monitoreando transmisiones...";
+            logBox.innerText = "Canal seguro activo.";
 
             initMic();
 
-            // Iniciar sondeo automático cada 5 segundos
             if (pollInterval) clearInterval(pollInterval);
+            // Sondeo cada 4 segundos (óptimo para no saturar Apps Script)
             pollInterval = setInterval(() => {
                 fetchLastAudio(false);
-            }, 5000);
+            }, 4000);
         }
 
         function logout() {
@@ -258,8 +257,8 @@
                         const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
                         audioChunks = [];
                         
-                        statusText.innerText = "Cifrando y enviando...";
-                        logBox.innerText = "Aplicando seguridad AES...";
+                        statusText.innerText = "Transmitiendo...";
+                        logBox.indexes = "Enviando paquete de voz...";
 
                         const reader = new FileReader();
                         reader.readAsDataURL(audioBlob);
@@ -287,7 +286,7 @@
             mediaRecorder.start();
             pttBtn.classList.add('recording');
             statusText.innerText = "🔴 TRANSMITIENDO...";
-            logBox.innerText = "Grabando voz...";
+            logBox.innerText = "Hablando en el canal...";
         }
 
         function stopRecording() {
@@ -312,15 +311,15 @@
                 });
                 const result = await response.json();
                 if(result.status === "success") {
-                    statusText.innerText = "✅ Mensaje enviado";
-                    logBox.innerText = "Transmisión segura exitosa.";
+                    statusText.innerText = "Escuchando canal en vivo...";
+                    logBox.innerText = "Transmisión finalizada con éxito.";
                 } else {
-                    statusText.innerText = "❌ Error de servidor";
+                    statusText.innerText = "Error de servidor";
                     logBox.innerText = result.message;
                 }
             } catch (err) {
-                statusText.innerText = "❌ Error de conexión";
-                logBox.innerText = err.toString();
+                statusText.innerText = "Error de red";
+                logBox.innerText = "Comprueba tu conexión.";
             }
         }
 
@@ -333,24 +332,27 @@
                     return;
                 }
 
-                // Si el audio cifrado es diferente al último conocido, significa que hay un mensaje nuevo
+                // Si es un audio nuevo distinto al que ya teníamos procesado
                 if (data.audio !== lastKnownAudioHash) {
-                    lastKnownAudioHash = data.audio; // Actualizamos registro
+                    lastKnownAudioHash = data.audio;
 
-                    // Intentamos descifrar
                     try {
                         const bytes = CryptoJS.AES.decrypt(data.audio, sessionPassword);
                         const originalBase64Audio = bytes.toString(CryptoJS.enc.Utf8);
 
                         if (!originalBase64Audio.startsWith("data:audio")) {
-                            return; // Si la contraseña no coincide, ignoramos en silencio el mensaje ajeno
+                            return; // Ignorar en silencio si la contraseña no coincide (otro canal/grupo)
                         }
 
-                        // ¡Mensaje nuevo detectado y descifrado con éxito!
-                        playBeep(); // 🔊 Emite el sonido de alerta
+                        // Si envié yo mismo el mensaje, opcionalmente podemos evitar reproducirlo para no hacernos eco
+                        const currentUser = localStorage.getItem('zello_username');
+                        if (data.user === currentUser) {
+                            return; 
+                        }
 
-                        statusText.innerText = `🔊 Nuevo mensaje de: ${data.user}`;
-                        logBox.innerText = "Reproduciendo transmisión entrante...";
+                        playBeep(); // 🔊 Sonido tipo walkie-talkie
+                        statusText.innerText = `🔊 Entrante: ${data.user}`;
+                        logBox.innerText = "Reproduciendo mensaje...";
 
                         const audioPlayer = document.getElementById('audioPlayer');
                         audioPlayer.src = originalBase64Audio;
@@ -362,14 +364,14 @@
                         }
 
                     } catch (decryptError) {
-                        // Contraseña incorrecta para este mensaje cifrado
+                        // Error de descifrado silenciado
                     }
                 } else if (isManual) {
-                    logBox.innerText = "No hay mensajes nuevos en el canal.";
+                    logBox.innerText = "El canal está al día.";
                 }
 
             } catch (err) {
-                console.log("Error consultando nuevos mensajes:", err);
+                // Silenciar errores temporales de red para evitar spam en consola
             }
         }
     </script>
